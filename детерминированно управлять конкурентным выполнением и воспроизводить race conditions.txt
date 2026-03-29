@@ -1,0 +1,80 @@
+Паттерн: Controlled Execution Delay (управляемые точки паузы)
+Идея
+
+В код вставляются явные точки остановки, выполнение в которых можно:
+
+приостановить
+возобновить извне
+
+Это позволяет детерминированно управлять конкурентным выполнением и воспроизводить race conditions.
+
+Состав
+
+1. Глобальный координатор
+
+public interface ISingletoneDelayer
+{
+    Task Wait(string requestId, string position);
+    Task Continue(string requestId, string position);
+}
+
+2. Scoped-обёртка
+
+public interface IScopedDelayer<TEnum> where TEnum : Enum
+{
+    Task Wait(TEnum point);
+}
+
+Реализация:
+
+берёт requestId из HTTP header
+преобразует enum → position
+делегирует вызов в ISingletoneDelayer
+
+3. Точки остановки
+
+enum ReserveStockDelays
+{
+    AfterExists,
+    AfterAdd
+}
+
+4. Внешнее управление
+
+POST /continue/{requestId}/{position}
+
+Позволяет возобновить выполнение конкретного запроса в конкретной точке.
+
+Пример использования
+using var tx = db.Database.BeginTransaction();
+
+// 1. Проверка
+var exists = ...;
+
+if (exists)
+    return false;
+
+// 2. Пауза
+await delayer.Wait(ReserveStockDelays.AfterExists);
+
+// 3. Мутация
+db.Add(...);
+await db.SaveChanges();
+
+// 4. Пауза
+await delayer.Wait(ReserveStockDelays.AfterAdd);
+
+// 5. Commit
+tx.Commit();
+Что решает
+воспроизведение race conditions
+тестирование изоляции транзакций
+контроль порядка выполнения
+отладка конкурентных сценариев
+Ключевая формула
+
+Execution = Code + External Synchronization Control (requestId из header)
+
+Суть
+
+Код содержит управляемые точки паузы, а внешний механизм (через requestId из header) контролирует выполнение каждого запроса.
