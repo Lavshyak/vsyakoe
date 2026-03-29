@@ -1,0 +1,13 @@
+utf8 файл с исходным кодом:
+для мака и линукса вроде ниче делать не надо, само работать должно
+#include <windows.h>
+SetConsoleOutputCP(CP_UTF8);
+SetConsoleCP(CP_UTF8);
+русская буква занимает несколько char, английская 1 char
+
+
+windows-1251 файл с иходным кодом:
+#include <clocale>
+setlocale(LC_ALL, "Russian");
+в докер контейнере с clang русские буквы не отображаются, не разбирался.
+на винде 11 с mingw ninja норм.
