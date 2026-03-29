@@ -78,3 +78,5 @@ Execution = Code + External Synchronization Control (requestId из header)
 Суть
 
 Код содержит управляемые точки паузы, а внешний механизм (через requestId из header) контролирует выполнение каждого запроса.
+
+Но Microsoft Coyote круче, если есть возможность слинковать ассембли сервера и проекта с тестами
