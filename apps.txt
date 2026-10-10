@@ -1,0 +1,9 @@
+text to QR (Windows/MacOS/Linux; 400+ words ok) https://github.com/Ircama/qr-code-generator
+
+file manager (Windows/?) XYplorer
+
+image viewer ImageGlass
+
+screenshot/video/gif ShareX
+
+virtual sound in/out (mic/speaker) Virtual Audio Cable Eugene V. Muzychenko
