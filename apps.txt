@@ -1,4 +1,4 @@
-text to QR (Windows/MacOS/Linux; 400+ words ok on 16.5") https://github.com/Ircama/qr-code-generator
+text to QR (Windows/MacOS/Linux; 400+ words ok on 16.5" 1920*1080) https://github.com/Ircama/qr-code-generator
 
 file manager (Windows/?) XYplorer
 
