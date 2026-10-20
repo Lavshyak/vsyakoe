@@ -22,3 +22,4 @@ cat example.com.crt example.com.root.crt > example.com.fullchain.crt
 
 public: example.com.fullchain.crt
 private: example.com.key
+лоложить в доверенные корневые центры на клиенте: example.com.root.crt
