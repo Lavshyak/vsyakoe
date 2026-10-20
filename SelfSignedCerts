@@ -1,3 +1,5 @@
+requires openssl 3+
+
 openssl req -x509 -newkey rsa:2048 -nodes -sha256 \
   -keyout example.com.root.key \
   -out example.com.root.crt \
