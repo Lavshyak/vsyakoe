@@ -1,0 +1,24 @@
+openssl req -x509 -newkey rsa:2048 -nodes -sha256 \
+  -keyout example.com.root.key \
+  -out example.com.root.crt \
+  -days 10000 \
+  -subj "/CN=example.com.root" \
+  -addext "basicConstraints=critical,CA:TRUE,pathlen:0" \
+  -addext "keyUsage=critical,keyCertSign,cRLSign" 
+
+openssl req -new -x509 \
+  -CA example.com.root.crt -CAkey example.com.root.key -CAcreateserial \
+  -newkey rsa:2048 -nodes -sha256 \
+  -out example.com.crt \
+  -keyout example.com.key \
+  -days 10000 \
+  -subj "/CN=example.com" \
+  -addext "basicConstraints=critical,CA:FALSE" \
+  -addext "keyUsage=critical,digitalSignature,keyEncipherment" \
+  -addext "extendedKeyUsage=serverAuth" \
+  -addext "subjectAltName=DNS:example.com,IP:[Данные удалены],IP:127.0.0.1"
+
+cat example.com.crt example.com.root.crt > example.com.fullchain.crt
+
+public: example.com.fullchain.crt
+private: example.com.key
